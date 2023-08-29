@@ -3,7 +3,7 @@ import Common from '../common.js';
 export default class LoginForm {
 
 	constructor() {
-		this.common = new Common;
+		this.common = new Common();
 		this.render();
 		this.init();
 	}
@@ -33,7 +33,7 @@ export default class LoginForm {
 		const userLogin = new Event("userLogin");
 		const loginForm = document.getElementById("loginForm");
 
-		if(loginForm) {
+		if (typeof loginForm !== "null") {
 			loginForm.addEventListener("submit", event => {
 				event.preventDefault();
 
