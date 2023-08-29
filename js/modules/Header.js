@@ -3,24 +3,31 @@ import Common from '../common.js';
 export default class Header {
 
 	constructor() {
+
+		// Közös eszközöket tartalmazó osztály példányosítása
 		this.common = new Common;
+
+		// Ez egy ilyen kamu flag, amikor az event lefut, ezt állítja true-ra, és ezen keresztül ellőrzi a fejlécben, hogy kell-e a szöveg.
 		this.loggedIn = false; 
 
+		// összeállítja a fejléc html-ét, majd beinjektálja a megfelelő selectorral ellátott div-be
 		this.render();
-		this.init();
+
+		// Ebben iratkozunk fel a loginForm event-re, amit bejelentkezéskor "sütünk el"
+		addEventListener("DOMContentLoaded", () => {
+			this.init();
+		});
 	}
 
 	init() {
-		addEventListener("DOMContentLoaded", () => {
-			const loginForm = document.getElementById("loginForm");
-			if(loginForm) {			
-				loginForm.addEventListener("userLogin", event => {
-				 	this.loggedIn = true;
+		const loginForm = document.getElementById("loginForm");
+		if (loginForm) {			
+			loginForm.addEventListener("userLogin", () => {
+			 	this.loggedIn = true;
 
-				 	this.render();
-				}, false);
-			} 
-		});
+			 	this.render();
+			}, false);
+		} 
 	}
 
 	render() {
@@ -30,17 +37,18 @@ export default class Header {
 					<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
 					<button class="btn btn-outline-primary" type="submit">Search</button>
 				</form>`
-				if(this.loggedIn) {
+				if (this.loggedIn) {
 					html += `	
 					<div id="profile">
-						<span class="text-success">Beléptél</span>
+						<div class="alert alert-success mb-0">Beléptél</div>
 					</div>`;
 				}
 			
 			html += `</div>
 		</nav>`;
 
-		this.common.getContainer().getElementsByClassName("header-container")[0].innerHTML = html;
+		this.common.renderElement("header", html);
+
 	}
 
 

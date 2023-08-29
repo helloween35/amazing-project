@@ -14,11 +14,11 @@ export default class LoginForm {
 			<form id="loginForm">
 				<div class="col mb-2">
 					<label>Név: </label>
-					<input type="text" class="form-control" placeholder="First name" aria-label="First name">
+					<input type="text" id="nickname" name="nickname" class="form-control nickname" placeholder="Nickname" aria-label="Nickname">
 				</div>
 				<div class="col">
 					<label>Jelszó: </label>
-					<input type="text" class="form-control" placeholder="Last name" aria-label="Last name">
+					<input type="text" id="password" name="password" class="form-control password" placeholder="Last name" aria-label="Last name">
 				</div>
 				<div class="col mt-3">
 					<button class="btn btn-primary">Belépek, baszod!</button>
@@ -26,7 +26,7 @@ export default class LoginForm {
 			</form>
 		</div>`;
 
-		this.common.getContainer().getElementsByClassName("form-container")[0].innerHTML = html;
+		this.common.renderElement("form", html);
 	}
 
 	init() {
@@ -37,9 +37,18 @@ export default class LoginForm {
 			loginForm.addEventListener("submit", event => {
 				event.preventDefault();
 
-				// if jelszó egyezik!?
+				const nickname = loginForm.getElementsByClassName("nickname")[0].value;
+				const password = loginForm.getElementsByClassName("password")[0].value;
 
-				loginForm.dispatchEvent(userLogin);
+				if (
+					nickname == localStorage.getItem("nickname") &&
+					password == localStorage.getItem("password")
+				) {
+					alert("Na, csak sikerült végre!");	
+					loginForm.dispatchEvent(userLogin);
+				} else {
+					alert("Elbasztad, rossz jelszó!");	
+				}
 			});
 		}
 	}
